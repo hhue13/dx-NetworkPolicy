@@ -1,6 +1,6 @@
 ##
 ## Deploy the Network policies created in PROD via the OCP project template?
-deployProdDefaults: true
+deployProdDefaults: false
 ##
 ## Allow namespace access for a specific port and app.
 
