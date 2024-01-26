@@ -1,0 +1,54 @@
+{{/*
+Create the default NetworkPolcies which are setup in PROD via the project template if deployProdDefaults is set
+*/}}
+
+{{- if ($.Values.deployProdDefaults | default false) }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-same-namespace
+  namespace: {{ $.Release.Namespace }}
+  labels:
+  {{- include "dx-network-policy.labels" . | nindent 4 }}
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - podSelector: {}
+  policyTypes:
+    - Ingress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-openshift-monitoring
+  namespace: {{ $.Release.Namespace }}
+  labels:
+  {{- include "dx-network-policy.labels" . | nindent 4 }}
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network.openshift.io/policy-group: monitoring
+  policyTypes:
+    - Ingress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-openshift-ingress
+  namespace: {{ $.Release.Namespace }}
+  labels:
+  {{- include "dx-network-policy.labels" . | nindent 4 }}
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network.openshift.io/policy-group: ingress
+  policyTypes:
+    - Ingress
+{{- end }}

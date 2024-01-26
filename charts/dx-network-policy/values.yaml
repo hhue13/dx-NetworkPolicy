@@ -1,0 +1,13 @@
+##
+## Deploy the Network policies created in PROD via the OCP project template?
+deployProdDefaults: false
+##
+## Allow cross namespace access for a specific port and app.
+
+crossNamespaceAccess:
+  - port: 10042
+    toNs:
+      app: "dx-xxxxx-core"
+    fromNs:
+      name: yyyyy
+      app: "dx-yyyyy-core"

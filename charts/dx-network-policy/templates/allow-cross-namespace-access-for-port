@@ -1,0 +1,3 @@
+{{- range .Values.crossNamespaceAccess }}
+{{- include "dx-network-policy.crossNamespaceAccess" (list $ .) }}
+{{- end }}
